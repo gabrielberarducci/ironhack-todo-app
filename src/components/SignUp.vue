@@ -52,7 +52,6 @@
     const confirmPassword = ref("");
     
     const signUp = async () => {
-        console.log(password.value,confirmPassword.value);
         if(password.value === confirmPassword.value)        
         alert("signup");
         else
