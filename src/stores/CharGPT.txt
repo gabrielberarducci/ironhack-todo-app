@@ -1,0 +1,54 @@
+existe otra forma de implementar stores sin usar state y actions?
+
+Sí, en Vue.js existe otra forma de implementar stores sin usar el enfoque tradicional de `state` y `actions`. Puedes utilizar la opción de Composition API de Vue junto con el sistema de reactividad para crear un objeto reativo que funcione como un store.
+
+Aquí tienes un ejemplo de cómo implementar un store utilizando la Composition API:
+
+```javascript
+import { reactive } from 'vue';
+
+const store = reactive({
+  tasks: [],
+  addTask(task) {
+    store.tasks.push(task);
+  },
+  removeTask(index) {
+    store.tasks.splice(index, 1);
+  },
+});
+
+export default store;
+```
+
+En este ejemplo, creamos un objeto `store` utilizando la función `reactive` de Vue. Este objeto tiene una propiedad `tasks` que almacena las tareas y dos métodos: `addTask` para agregar una tarea y `removeTask` para eliminar una tarea.
+
+En lugar de utilizar acciones separadas, simplemente definimos los métodos directamente en el objeto `store`. Al ser un objeto reactivo, cualquier cambio realizado en `tasks` se reflejará automáticamente en los componentes que utilizan este store.
+
+Luego, puedes importar y utilizar este store en tus componentes de la siguiente manera:
+
+```javascript
+import store from './store';
+
+export default {
+  setup() {
+    // Acceder al store en el componente
+    const { tasks, addTask, removeTask } = store;
+
+    // Resto del código del componente...
+
+    return {
+      tasks,
+      addTask,
+      removeTask,
+    };
+  },
+};
+```
+
+Dentro del componente, simplemente importamos el store y accedemos a sus propiedades y métodos. Luego, podemos utilizarlos directamente en la lógica del componente.
+
+Es importante tener en cuenta que, al utilizar esta forma de implementación de stores, la reactividad se maneja automáticamente y no necesitas preocuparte por llamar a `reactive` o `computed` manualmente.
+
+Esta es una forma más simple y directa de implementar stores en Vue.js utilizando la Composition API y la reactividad de Vue. Puedes adaptarla y ampliarla según tus necesidades específicas.
+
+Espero que esta alternativa te sea útil. Si tienes más preguntas, ¡no dudes en preguntar!
