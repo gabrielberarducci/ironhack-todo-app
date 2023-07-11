@@ -49,7 +49,7 @@
             redirect.push({ path: "/" });
         }
         catch (error) {
-            alert(error);
+            redirect.push({ path: "/auth/signup" });
         }
 
     };
