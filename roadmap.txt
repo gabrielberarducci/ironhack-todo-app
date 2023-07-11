@@ -1,0 +1,14 @@
+signin - ready - 11/07
+signup - ready - 10/07 - falta manejo de errores. - 12/07
+signout - pendiente 12/07
+profile - pendiente - info+avatar - 13/07
+tasks - pendiente - 14/07
+
+
+
+
+
+
+ideas para implementar: 
+
+popup con "create new task"
