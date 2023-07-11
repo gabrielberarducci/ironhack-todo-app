@@ -45,6 +45,7 @@
     
     <script setup>
     import { ref, reactive} from "vue"
+    import { store } from "../stores/users"
     
     // variables para conectarme al form (login)
     const email = ref("");
@@ -53,7 +54,7 @@
     
     const signUp = async () => {
         if(password.value === confirmPassword.value)        
-        alert("signup");
+        store.signUp(email, password);
         else
         alert("boludooooo");
     };

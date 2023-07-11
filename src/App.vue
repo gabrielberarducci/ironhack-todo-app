@@ -11,7 +11,7 @@ import { ref } from "vue";
 const router = useRouter();
 
 onMounted( () => {
-  router.push({ path: "/auth/signup" });
+  router.push({ path: "/auth/login" });
 });
 </script>
 

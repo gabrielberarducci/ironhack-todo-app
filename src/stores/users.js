@@ -1,32 +1,39 @@
 import { defineStore } from "pinia";
 import { supabase } from "../supabase";
+import { reactive } from 'vue';
 
-// stores/counter.js
-import { defineStore } from 'pinia'
-
-export const useCounterStore = defineStore('counter', {
-  state: () => {
-    return { count: 0 }
+export const store = reactive({
+  user: null,
+  profile: null,
+  async signUp(email, password) {
+    let { data, error } = await supabase.auth.signUp({
+      email: email.value,
+      password: password.value
+    })
+    return (data, error);
   },
-  // could also be defined as
-  // state: () => ({ count: 0 })
-  actions: {
-    increment() {
-      this.count++
-    },
+  async signIn(email, password) {
+    let { data, error } = await supabase.auth.signInWithPassword({
+      email: email.value,
+      password: password.value
+    });
+    if (error) throw error;
+    return (data, error);
   },
-})
+  // async fetchUser() {
+  //   const user = await supabase.auth.user();
+  //   if(user) {
+  //     this.user = user;
+  //     const { data: profile } = await supabase
+  //     .from('profiles')
+  //     .select()
+  //     .match({ user_id: this.user.id });
 
+  //     if (profile) this.profile = profile[0];
+  //     // console.log('user in store: ', this.user);
+  //     // console.log('profile in store: ', this.profile);
+  //   }
+  // },
+});
 
-
-
-
-
-
-
-const signUp(email, password) => {
-let { data, error } = await supabase.auth.signUp({
-    email: email,
-    password: password
-  })
-}
+//export default store;
