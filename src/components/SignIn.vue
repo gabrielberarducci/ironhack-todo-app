@@ -35,23 +35,24 @@
 
 <script setup>
     import { ref, reactive} from "vue";
-    import { store } from "../stores/users";
+    import { useUsersStore } from "../stores/users";
     import { useRouter } from "vue-router";
     
     // variables para conectarme al form (login)
     const email = ref("");
     const password = ref("");
     const redirect = useRouter();
+    const store = useUsersStore();
 
     const signIn = async () => {        
         try {
             await store.signIn(email, password);
             redirect.push({ path: "/" });
+            
         }
         catch (error) {
-            redirect.push({ path: "/auth/signup" });
+            alert(error);
         }
-
     };
 </script>
 

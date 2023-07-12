@@ -45,18 +45,28 @@
     
     <script setup>
     import { ref, reactive} from "vue"
-    import { store } from "../stores/users"
+    import { useUsersStore } from "../stores/users"
+    import { useRouter } from "vue-router";
     
     // variables para conectarme al form (login)
     const email = ref("");
     const password = ref("");
     const confirmPassword = ref("");
+    const redirect = useRouter();
+    const store = useUsersStore();
     
     const signUp = async () => {
         if(password.value === confirmPassword.value)        
-        store.signUp(email, password);
+        try {
+            await store.signUp(email, password);
+            alert("Tus datos se guardaron correctamente. Por favor, chequea tu correo para continuar con el proceso de alta.");
+            redirect.push({ path: "/auth/login" });
+        }
+        catch (error) {
+            alert(error);
+        }
         else
-        alert("boludooooo");
+        alert("Las contraseñas no coinciden, por favor, corrige el error e intenta nuevamente.");
     };
     
     </script>

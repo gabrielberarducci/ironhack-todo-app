@@ -2,28 +2,29 @@ import { defineStore } from "pinia";
 import { supabase } from "../supabase";
 import { ref, reactive } from 'vue';
 
-export const store = reactive({
-  user: null,
-  profile: null,
+export const useUsersStore = defineStore('users', () => {
+  let user = ref({});
+  const profile = null;
   
   //Signup is the function that we use to register new users in our website.
   //This function calls a method defined in the Supabase documentation (supabase.auth.signUp)
   //and passes it the email and password parameters.
   //This function connects to supabase using the credentials defined in the supabase.js file.  
-  async signUp(email, password) {
+  const signUp = async (email, password) => {
     let { data, error } = await supabase.auth.signUp({
       email: email.value,
       password: password.value
     });
+    //error handling and return the user and error values ​​to the main function.
     if (error) throw error;
     return (data, error);
-  },
+  };
 
   //Signin is the function that we use to login users in our website.
   //This function calls a method defined in the Supabase documentation (supabase.auth.signInWithPassword)
   //and passes it the email and password parameters.
   //This function connects to supabase using the credentials defined in the supabase.js file. 
-  async signIn(email, password) {
+  const signIn = async (email, password) => {
     let { data, error } = await supabase.auth.signInWithPassword({
       email: email.value,
       password: password.value
@@ -31,8 +32,27 @@ export const store = reactive({
     //It is important to carry out error handling within this function, so that when calling it from SignIn.vue
     //the login works correctly.
     if (error) throw error;
+    user = data.user;
+    console.log(data.user.id);
+    console.log(user.id);
     return (data, error);
-  },
+  };
+
+  const signOut = async () => {
+    let { error } = await supabase.auth.signOut();
+    if (error) throw error;
+    return (error);
+  };
+
+  return { user, profile, signIn, signUp, signOut };
+})
+
+
+
+//export default store;
+
+
+
 
   // async fetchUser() {
   //   const user = await supabase.auth.user();
@@ -48,6 +68,3 @@ export const store = reactive({
   //     // console.log('profile in store: ', this.profile);
   //   }
   // },
-});
-
-//export default store;

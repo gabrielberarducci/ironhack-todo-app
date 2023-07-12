@@ -1,14 +1,21 @@
 signin - ready - 11/07
-signup - ready - 10/07 - falta manejo de errores. - 12/07
-signout - pendiente 12/07
+signup - ready - 10/07 - manejo de errores. - 12/07
+signout - ready 12/07
+tasks - pendiente - 12/07
+Create new task
+show task
+edit task
+delete task
+completed task
+
+
+
+
+
 profile - pendiente - info+avatar - 13/07
-tasks - pendiente - 14/07
-
-
-
-
 
 
 ideas para implementar: 
 
 popup con "create new task"
+controlar que el email no exista en la DB antes de hacer el signUp
