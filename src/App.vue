@@ -3,10 +3,8 @@
 </template>
 
 <script setup>
-import { RouterView } from 'vue-router'
-import { onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { ref } from "vue";
+import { useRouter, RouterView } from 'vue-router'
+import { ref, onMounted } from "vue";
 
 const router = useRouter();
 
