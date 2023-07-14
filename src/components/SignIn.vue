@@ -47,8 +47,8 @@
     const signIn = async () => {        
         try {
             await store.signIn(email, password);
+            console.log(store.currentUser);
             redirect.push({ path: "/" });
-            
         }
         catch (error) {
             alert(error);

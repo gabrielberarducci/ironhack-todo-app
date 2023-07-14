@@ -2,9 +2,20 @@ import { defineStore } from "pinia";
 import { supabase } from "../supabase";
 import { ref, reactive } from 'vue';
 
-export const useUsersStore = defineStore('users', () => {
-  let user = ref({});
-  const profile = null;
+export const useUsersStore = defineStore('user', () => {
+  const currentUser = ref(null);
+  const profile = ref(null);
+  
+  const setUser = (user) => {
+      if (user) {
+        currentUser.value = user;
+        router.push({ path: '/' });
+      } else {
+        console.log('user null');
+        currentUser.value = null;
+        router.push({ path: '/auth' });
+      }
+    };
   
   //Signup is the function that we use to register new users in our website.
   //This function calls a method defined in the Supabase documentation (supabase.auth.signUp)
@@ -32,11 +43,12 @@ export const useUsersStore = defineStore('users', () => {
     //It is important to carry out error handling within this function, so that when calling it from SignIn.vue
     //the login works correctly.
     if (error) throw error;
-    user = data.user;
-    console.log(data.user.id);
-    console.log(user.id);
+    currentUser.value = data.user;
+    console.log(data.user);
+    console.log(currentUser.value);
     return (data, error);
   };
+  
 
   const signOut = async () => {
     let { error } = await supabase.auth.signOut();
@@ -44,8 +56,22 @@ export const useUsersStore = defineStore('users', () => {
     return (error);
   };
 
-  return { user, profile, signIn, signUp, signOut };
-})
+  return { currentUser, profile, signIn, signUp, signOut, setUser};
+},
+
+{
+    persist: {
+      enabled: true,
+      strategies: [
+        {
+          key: 'user',
+          storage: localStorage,
+        },
+      ],
+    },
+  },
+
+);
 
 
 
