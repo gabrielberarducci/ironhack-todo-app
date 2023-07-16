@@ -37,6 +37,8 @@
                     />
                 </div>
                 <button type="submit">Sign Up</button>
+                <p>Already have an account?</p>
+                <a href="/auth/login">Login</a>
             </div>
         </form>
     </div>

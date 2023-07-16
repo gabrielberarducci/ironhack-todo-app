@@ -3,19 +3,12 @@ import { supabase } from "../supabase";
 import { ref, reactive } from 'vue';
 
 export const useUsersStore = defineStore('user', () => {
-  const currentUser = ref(null);
+  let currentUser = ref(null);
   const profile = ref(null);
   
-  const setUser = (user) => {
-      if (user) {
-        currentUser.value = user;
-        router.push({ path: '/' });
-      } else {
-        console.log('user null');
-        currentUser.value = null;
-        router.push({ path: '/auth' });
-      }
-    };
+  const fetchUser = async () => {
+    const { data: { currentUser } } = await supabase.auth.getUser();
+  };
   
   //Signup is the function that we use to register new users in our website.
   //This function calls a method defined in the Supabase documentation (supabase.auth.signUp)
@@ -40,13 +33,11 @@ export const useUsersStore = defineStore('user', () => {
       email: email.value,
       password: password.value
     });
+    currentUser.value = data.user;
+    console.log(currentUser.value);
     //It is important to carry out error handling within this function, so that when calling it from SignIn.vue
     //the login works correctly.
     if (error) throw error;
-    currentUser.value = data.user;
-    console.log(data.user);
-    console.log(currentUser.value);
-    return (data, error);
   };
   
 
@@ -56,7 +47,7 @@ export const useUsersStore = defineStore('user', () => {
     return (error);
   };
 
-  return { currentUser, profile, signIn, signUp, signOut, setUser};
+  return { currentUser, profile, signIn, signUp, signOut, fetchUser};
 },
 
 {
@@ -64,7 +55,7 @@ export const useUsersStore = defineStore('user', () => {
       enabled: true,
       strategies: [
         {
-          key: 'user',
+          key: 'currentUser',
           storage: localStorage,
         },
       ],
